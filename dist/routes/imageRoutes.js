@@ -4,19 +4,15 @@ import path from 'path';
 import { validateQuery } from '../middleware/validateQuery.js';
 import { logImageRequest } from '../middleware/logger.js';
 const router = express.Router();
-// Endpoint لمعالجة الصور مع middleware للتحقق والتسجيل
 router.get('/resize', validateQuery, logImageRequest, async (req, res) => {
-  const { filename, width, height } = req.query;
-  try {
-    const imagePath = await resizeImage(
-      filename,
-      parseInt(width),
-      parseInt(height)
-    );
-    res.sendFile(path.resolve(imagePath));
-  } catch (err) {
-    console.error('❌ Error processing image:', err);
-    res.status(500).send('❌ Failed to process image');
-  }
+    const { filename, width, height } = req.query;
+    try {
+        const imagePath = await resizeImage(filename, parseInt(width), parseInt(height));
+        res.sendFile(path.resolve(imagePath));
+    }
+    catch (err) {
+        console.error('❌ Error processing image:', err);
+        res.status(500).send('❌ Failed to process image');
+    }
 });
 export default router;

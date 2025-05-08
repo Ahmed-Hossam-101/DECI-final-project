@@ -39,7 +39,7 @@ body {
 }
 .app {
   width: 90vw;
-  height: 90vh;
+  height: 95vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,8 +66,7 @@ body {
     position: relative;
     top: 0px;
     margin: auto;
-    width: 80%;
-    height: 70vh;
+    width: 80vw;
     padding: 10px;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.486);
@@ -142,11 +141,12 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 50vw;
   max-width: 70vw;
   margin: auto;
   border-radius: 0 0 20px 20px;
   padding: 1.5rem;
-  background: #fbfbfb6a;
+  background: #fbfbfb;
   backdrop-filter: blur(10rem);
   -webkit-backdrop-filter: blur(10px);
 
@@ -162,14 +162,14 @@ body {
   transition: all 0.3s ease;
   min-width: 0; /* Prevents inputs from overflowing */
 }
-.input:invalid {
-  border-color: #f44336;
-  box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.2);
-}
 .input:focus {
   outline: none;
   border-color: #4b7def;
   box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
+}
+.input:invalid {
+  border-color: #f44336;
+  box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.2);
 }
 
 /* Updated VIP button with pink/blue colors */

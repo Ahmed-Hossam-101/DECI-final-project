@@ -1,5 +1,8 @@
 const btn = document.querySelector('button');
 const imgs = document.querySelectorAll('.imgContainer');
+const width = document.querySelector('.width').value;
+const height = document.querySelector('.height').value;
+
 let _filename = null;
 
 // Image selection handler
@@ -13,20 +16,30 @@ imgs.forEach((img) => {
 });
 
 btn.addEventListener('click', (e) => {
-  if (!_filename) {
-    alert('Please select an image first.');
-    return;
+  if (!_filename && !(width > 0 || width > 500) && !(height > 0 ||  width > 500)) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+      footer: '<p>Why do I have this issue?</p><br/> <p class="error">❌ Please select an image to resize.</p>',
+    });    return;
+  }else {
+    resizeImage(_filename);
   }
-  resizeImage(_filename);
 });
 
 async function resizeImage(filename) {
-  const width = document.querySelector('.width').value;
-  const height = document.querySelector('.height').value;
 
   if (!width || !height) {
-    alert('Please enter both width and height.');
-    return;
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+      
+      footer: '<p>Why do I have this issue?</p><br/> <p class="error">❌width and height must be positive</p>',
+      focusConfirm: false,
+      confirmButtonText: "OK",
+    });       return;
   }
 
   try {
