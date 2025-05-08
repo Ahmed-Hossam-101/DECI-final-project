@@ -7,4 +7,4 @@ npm run start
 
 ```
 
-# And host it in live server
+## And host it in live server
