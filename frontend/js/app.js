@@ -16,7 +16,7 @@ imgs.forEach((img) => {
 });
 
 btn.addEventListener('click', (e) => {
-  if (!_filename && !(width > 0 || width > 500) && !(height > 0 ||  width > 500)) {
+  if (!_filename && !(width > 0 || width > 500) && !(height > 0 ||  width > 0)) {
     Swal.fire({
       icon: "error",
       title: "Oops...",
@@ -30,17 +30,7 @@ btn.addEventListener('click', (e) => {
 
 async function resizeImage(filename) {
 
-  if (!width || !height) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Something went wrong!",
-      
-      footer: '<p>Why do I have this issue?</p><br/> <p class="error">❌width and height must be positive</p>',
-      focusConfirm: false,
-      confirmButtonText: "OK",
-    });       return;
-  }
+  
 
   try {
     const url = `http://localhost:3000/api/images/resize?filename=${encodeURIComponent(filename)}&width=${width}&height=${height}`;
