@@ -1,11 +1,7 @@
 const btn = document.querySelector('button');
 const imgs = document.querySelectorAll('.imgContainer');
-const width = document.querySelector('.width').value;
-const height = document.querySelector('.height').value;
-
 let _filename = null;
 
-// Image selection handler
 imgs.forEach((img) => {
   img.addEventListener('click', (event) => {
     imgs.forEach((img) => img.classList.remove('active')); 
@@ -16,44 +12,89 @@ imgs.forEach((img) => {
 });
 
 btn.addEventListener('click', (e) => {
-  if (!_filename && !(width > 0 || width > 500) && !(height > 0 ||  width > 0)) {
+  const width = parseInt(document.querySelector('.width').value);
+  const height = parseInt(document.querySelector('.height').value);
+  
+  if (!_filename) {
     Swal.fire({
       icon: "error",
       title: "Oops...",
       text: "Something went wrong!",
       footer: '<p>Why do I have this issue?</p><br/> <p class="error">❌ Please select an image to resize.</p>',
-    });    return;
-  }else {
-    resizeImage(_filename);
+    });
+    return;
   }
+  
+  if (isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+      footer: '<p>Why do I have this issue?</p><br/> <p class="error">❌ Please enter valid width and height (positive numbers).</p>',
+    });
+    return;
+  }
+  
+  if (width > 500 || height > 500) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+      footer: '<p>Why do I have this issue?</p><br/> <p class="error">❌ The height and width must be under 500.</p>',
+    });
+    return;
+  }
+  
+  resizeImage(_filename, width, height);
 });
 
-async function resizeImage(filename) {
-
-  
-
+async function resizeImage(filename, width, height) {
   try {
     const url = `http://localhost:3000/api/images/resize?filename=${encodeURIComponent(filename)}&width=${width}&height=${height}`;
-    Swal.fire({
-      title: 'The image saved successfully!',
-      icon: 'success',
-      draggable: true,
+    
+    // Show success message
+    await Swal.fire({
+      title: 'Processing your image...',
+      icon: 'info',
+      timer: 2000,
+      showConfirmButton: false
     });
-    // Create image element
-    setTimeout(() => {
-      const img = document.createElement('img');
-      img.src = url;
-      img.alt = 'Resized Image';
-      img.style.maxWidth = '100%'; 
-      img.style.height = 'auto'; 
-    }, 2000); 
-    img.onerror = () => {
-      resultDiv.innerHTML =
-        '<p class="error">❌ Failed to load resized image. Please check your parameters.</p>';
+    
+    // Create and display the image
+    const resultDiv = document.getElementById('result') || document.createElement('div');
+    resultDiv.innerHTML = '';
+    
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = 'Resized Image';
+    img.style.maxWidth = '100%';
+    img.style.height = 'auto';
+    
+    img.onload = () => {
+      Swal.fire({
+        title: 'The image was resized successfully!',
+        icon: 'success',
+        draggable: true,
+      });
+      resultDiv.appendChild(img);
     };
+    
+    img.onerror = () => {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Failed to load resized image.",
+        footer: '<p>Please check your parameters and try again.</p>',
+      });
+      resultDiv.innerHTML = '<p class="error">❌ Failed to load resized image.</p>';
+    };
+    
   } catch (error) {
     console.error('Error resizing image:', error);
-    document.getElementById('result').innerHTML =
-      '<p class="error">❌ An error occurred while processing your request.</p>';
+    Swal.fire({ 
+      icon: "error",
+      title: "Oops...",
+      text: "An error occurred while processing your request.",
+    });
   }
 }
