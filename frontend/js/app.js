@@ -1,7 +1,6 @@
 const btn = document.querySelector('button');
 const imgs = document.querySelectorAll('.imgContainer');
 let _filename = null;
-
 imgs.forEach((img) => {
   img.addEventListener('click', (event) => {
     imgs.forEach((img) => img.classList.remove('active')); 
