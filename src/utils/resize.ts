@@ -1,4 +1,3 @@
-// src/routes/imageResize.ts
 import express, { Request, Response } from 'express';
 import multer from 'multer';
 import sharp from 'sharp';
@@ -6,9 +5,8 @@ import path from 'path';
 import { log } from 'console';
 
 const router = express.Router();
-
-// إعداد تخزين multer
 const storage = multer.memoryStorage(); 
+
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
@@ -19,7 +17,6 @@ const upload = multer({
     }
   },
 });
-
 router.post(
   '/',
   upload.single('image'),
