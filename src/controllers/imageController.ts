@@ -23,12 +23,10 @@ const resizeImage = async (
   const outputPath = path.join(outputDir, outputFilename);
 
   if (fs.existsSync(outputPath)) {
-    console.log('🔁 Using cached image');
     return outputPath;
   }
 
   await sharp(inputPath).resize(width, height).toFile(outputPath);
-  console.log('✅ Image processed and cached');
   return outputPath;
 };
 
