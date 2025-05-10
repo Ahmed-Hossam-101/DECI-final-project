@@ -60,10 +60,7 @@ async function resizeImage(filename, width, height) {
       showConfirmButton: false
     });
     
-    // Create and display the image
-    const resultDiv = document.getElementById('result') || document.createElement('div');
-    resultDiv.innerHTML = '';
-    
+
     const img = document.createElement('img');
     img.src = url;
     img.alt = 'Resized Image';
