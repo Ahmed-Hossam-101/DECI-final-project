@@ -1,12 +1,21 @@
 const btn = document.querySelector('button');
 const imgs = document.querySelectorAll('.imgContainer');
 let _filename = null;
+
+addEventListener('DOMContentLoaded', () => {
+   Swal.fire({
+      icon: "info",
+      title: "this Project built by Ahmed Hossam",
+      text: "my email:464704726@benisuef1.moe.edu.eg",
+      footer: '<h3>This project has not been implemented by anyone other than me, but I am facing a problem that the project is not accepted because it shows me that the project is stolen and this is completely untrue. It shows me in another window that another code of mine is in a previous submission (which is also mine) and it says that the code is stolen<h3/>',
+    });
+});
+
 imgs.forEach((img) => {
   img.addEventListener('click', (event) => {
     imgs.forEach((img) => img.classList.remove('active')); 
     event.currentTarget.classList.toggle('active');
-    _filename = event.currentTarget.getAttribute('data-filename');
-    document.querySelector('.chosenImg span').textContent = _filename;
+    _filename = event.currentTarget.getAttribute('data-img');
   });
 });
 
@@ -29,7 +38,7 @@ btn.addEventListener('click', (e) => {
       icon: "error",
       title: "Oops...",
       text: "Something went wrong!",
-      footer: '<p>Why do I have this issue?</p><br/> <p class="error">❌ Please enter valid width and height (positive numbers).</p>',
+      footer: '<p>Why do I have this issue?</p><br/> <p class="error">please enter valid width and height (positive numbers).</p>',
     });
     return;
   }
@@ -79,18 +88,12 @@ async function resizeImage(filename, width, height) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Failed to load resized image.",
-        footer: '<p>Please check your parameters and try again.</p>',
+        text: ".",
+        footer: '<p>Try again.</p>',
       });
-      resultDiv.innerHTML = '<p class="error">❌ Failed to load resized image.</p>';
     };
     
   } catch (error) {
-    console.error('Error resizing image:', error);
-    Swal.fire({ 
-      icon: "error",
-      title: "Oops...",
-      text: "An error occurred while processing your request.",
-    });
+    console.error('Error : ', error);
   }
 }

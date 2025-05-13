@@ -2,57 +2,49 @@ import express, { Request, Response } from 'express';
 import multer from 'multer';
 import sharp from 'sharp';
 import path from 'path';
-import { log } from 'console';
-
-const router = express.Router();
 const storage = multer.memoryStorage(); 
+const router = express.Router();
 
-const upload = multer({
-  storage,
+const UploadTheImg = multer({
+  storage ,
   fileFilter: (req, file, cb) => {
     if (file.mimetype === 'image/jpeg') {
       cb(null, true);
     } else {
-      cb(new Error('Only JPG images are allowed!'));
+      cb(new Error('You can only upload JPEG images'));
     }
   },
 });
-router.post(
-  '/',
-  upload.single('image'),
+
+router.post('/',
+ UploadTheImg.single('image'),
   async (req: Request, res: Response): Promise<void> => {
     try {
+      
       const { width, height } = req.body;
-      const numericWidth = parseInt(width);
-      const numericHeight = parseInt(height);
+      const Height = parseInt(height);
+      const Width = parseInt(width);
+
+      
+      if (!Width || !Height) {
+        res.status(400)
+        .json({ error: 'Width and height must be provided as numbers' });
+      }
 
       if (!req.file) {
         res.status(400).json({ error: 'Image file is required' });
-        console.log('Image file is ');
-        return;
-      }
-
-      if (!numericWidth || !numericHeight) {
-        res
-          .status(400)
-          .json({ error: 'Width and height must be provided as numbers' });
         return;
       }
 
       const outputPath = path.join(
         __dirname,
         '../../resized',
-        `${Date.now()}_resized.jpg`
+        `${Date.now()}_resizedImg.jpg`
       );
       await sharp(req.file.buffer)
-        .resize(numericWidth, numericHeight)
+        .resize(Width, Height)
         .toFormat('jpeg')
         .toFile(outputPath);
-
-      res.status(200).json({
-        message: 'Image resized successfully',
-        path: outputPath,
-      });
     } catch (error: any) {
       res.status(500).json({ error: error.message });
     }

@@ -1,12 +1,11 @@
 import express from 'express';
 import resizeImage from '../controllers/imageController.js';
 import path from 'path';
-import { validateQuery } from '../middleware/validateQuery.js';
-import { logImageRequest } from '../middleware/logger.js';
+import { validateQuery } from '../middleware/middleware.js';
 
 const router = express.Router();
 
-router.get('/resize', validateQuery, logImageRequest, async (req, res) => {
+router.get('/resize', validateQuery, async (req, res) => {
   const { filename, width, height } = req.query;
 
   try {

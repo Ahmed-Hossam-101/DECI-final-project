@@ -1,12 +1,9 @@
-# ImageProcessingApp(Build by Ahmed Hossam,not plagiarized)
+# Image for DECI(Build by Ahmed Hossam,not plagiarized)
 
-## This app is built with TypeScript and Node.js for resizing JPG images. To start the app, run the following command:
+## you can adjsut the height and width of the image and download it ,First you should select the image ,after that,put height and width and enter the button !
 
-```bash
-<<<<<<< HEAD
-npm run start
-npm run start
+### To run this project write these cmds in the cmd :
+ #### npm run start
+ #### To TEST IT : npm run test
 
-```
-
-
+ 
